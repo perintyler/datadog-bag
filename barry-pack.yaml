@@ -1,0 +1,71 @@
+manifestVersion: 1
+name: datadog
+description: Datadog metrics, logs, traces, monitors, and events
+
+tools:
+  entry: tools.ts
+  env:
+    - DD_API_KEY
+    - DD_APP_KEY
+
+tool-metadata:
+  - { toolName: search_logs, namespace: datadog, access: read }
+  - { toolName: search_traces, namespace: datadog, access: read }
+  - { toolName: get_trace, namespace: datadog, access: read }
+  - { toolName: query_metrics, namespace: datadog, access: read }
+  - { toolName: list_monitors, namespace: datadog, access: read }
+  - { toolName: get_monitor, namespace: datadog, access: read }
+  - { toolName: search_events, namespace: datadog, access: read }
+  - { toolName: status, namespace: datadog, access: read }
+
+mcp-servers:
+  datadog-mcp:
+    command: npx
+    args: ["-y", "mcp-remote", "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp", "--header", "DD-API-KEY: ${DD_API_KEY}", "--header", "DD-APPLICATION-KEY: ${DD_APP_KEY}"]
+    env: [DD_API_KEY, DD_APP_KEY]
+
+verbs:
+  debug:
+    synonyms: [troubleshoot, diagnose, investigate]
+    instruction: >-
+      Search logs for the error, then find related traces to understand the
+      call path across services. Get the full trace for the failing request.
+      Check whether monitors fired around the time of the incident.
+  observe:
+    synonyms: [monitor, watch, check-health]
+    instruction: >-
+      Query time-series metrics and compare against baseline. Check monitor
+      status for the affected service. Search for recent deploy events that
+      correlate with the change.
+
+nouns:
+  logs:
+    synonyms: [log, logging, application-logs]
+    description: >-
+      Application logs indexed in Datadog. Queryable by service, level,
+      timeframe, and Datadog query syntax.
+    getters: [search_logs]
+  traces:
+    synonyms: [trace, span, request, apm]
+    description: >-
+      Distributed APM traces — span trees showing the full request path
+      across services, with timing and error information.
+    getters: [search_traces, get_trace]
+  metrics:
+    synonyms: [metric, timeseries, stats, measurements]
+    description: >-
+      Time-series metrics — CPU, memory, error rates, latency, and custom
+      business metrics. Queryable with Datadog metrics syntax.
+    getters: [query_metrics]
+  monitors:
+    synonyms: [alert, alarm, monitor, check]
+    description: >-
+      Datadog monitors that alert on metric/log conditions. Each has a status
+      (OK, Alert, Warn, No Data), a query, and history.
+    getters: [list_monitors, get_monitor]
+  events:
+    synonyms: [event, deployment, deploy, incident]
+    description: >-
+      Datadog events — deployments, alerts, incidents, and other operational
+      events with timestamps and metadata.
+    getters: [search_events]
