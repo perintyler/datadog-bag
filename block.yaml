@@ -1,4 +1,3 @@
-manifestVersion: 1
 name: datadog
 description: Datadog metrics, logs, traces, monitors, and events
 
