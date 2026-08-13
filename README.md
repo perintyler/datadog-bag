@@ -1,4 +1,4 @@
-# Datadog (Barry Pack)
+# Datadog (Barry bag)
 
 Query and explore Datadog logs, traces, metrics, monitors, and events.
 
