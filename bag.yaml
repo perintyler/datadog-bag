@@ -19,9 +19,8 @@ tool-metadata:
 
 mcp-servers:
   datadog-mcp:
-    command: npx
-    args: ["-y", "mcp-remote", "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp", "--header", "DD-API-KEY: ${DD_API_KEY}", "--header", "DD-APPLICATION-KEY: ${DD_APP_KEY}"]
-    env: [DD_API_KEY, DD_APP_KEY]
+    type: http
+    url: https://mcp.datadoghq.com/api/unstable/mcp-server/mcp
 
 verbs:
   debug:
