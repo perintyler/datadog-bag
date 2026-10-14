@@ -1,25 +1,12 @@
 name: datadog
 description: Datadog metrics, logs, traces, monitors, and events
 
-# Two ways to reach Datadog, under one grant:
-#
-#   datadog (this bag)   Barry's own tools — tools.ts below, namespace `datadog`
-#   datadog-official     Datadog's hosted MCP — namespace `datadog-mcp`
-#
-# The local half lives HERE rather than in a `datadog-local` sibling because it
-# is a real package (src/, package.json, its own lockfile); moving it would buy
-# symmetry and cost a build. The parent therefore owns the local tools and
-# composes the official half.
-#
-# Deliberately NO `traits:` block. A manifest trait reusing the auto-trait's
-# name REPLACES it rather than refining it (getAllTraits — "the manifest wins"),
-# which would discard everything `bags:` absorbs.
-#
-# The two vocabularies are disjoint (search_logs/query_metrics vs Datadog's
-# own dd_* tools), so both can live under one trait without the duplicate-name
-# collision documented in the `playwright` bag.
-bags:
-  - datadog-official
+# Native tools use datadog; the hosted vendor tools retain datadog-mcp.
+# Both implementations are owned by this bag; select namespaces for narrower grants.
+mcp-servers:
+  datadog-mcp:
+    type: http
+    url: https://mcp.datadoghq.com/api/unstable/mcp-server/mcp
 
 verbs:
   debug:
